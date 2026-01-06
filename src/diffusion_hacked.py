@@ -4,7 +4,10 @@ import torch
 import gc
 from src.utils import *
 from src.flow_utils import get_mapping_ind, warp_tensor
-from diffusers.models.unet_2d_condition import UNet2DConditionOutput
+try:
+    from diffusers.models.unet_2d_condition import UNet2DConditionOutput
+except ImportError:
+    from diffusers.models.unets.unet_2d_condition import UNet2DConditionOutput
 from diffusers.models.attention_processor import AttnProcessor2_0
 from typing import Any, Dict, List, Optional, Tuple, Union
 import sys

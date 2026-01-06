@@ -108,8 +108,11 @@ def apply_control(x, detector, config):
         detected_map = detector(x)
     return detected_map
 
-def run_keyframe_translation(config):
-    pipe, frescoProc, controlnet, detector, flow_model, sod_model = get_models(config)
+def run_keyframe_translation(config, models=None):
+    if models is None:
+        pipe, frescoProc, controlnet, detector, flow_model, sod_model = get_models(config)
+    else:
+        pipe, frescoProc, controlnet, detector, flow_model, sod_model = models
     device = pipe._execution_device
     guidance_scale = 7.5
     do_classifier_free_guidance = guidance_scale > 1
