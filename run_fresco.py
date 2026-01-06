@@ -60,7 +60,12 @@ def get_models(config):
     if config['controlnet_type'] not in ['hed', 'depth', 'canny']:
         print('unsupported control type, set to hed')
         config['controlnet_type'] = 'hed'
-    controlnet = ControlNetModel.from_pretrained("lllyasviel/sd-controlnet-"+config['controlnet_type'], 
+    
+    # Use local path if provided, otherwise use HuggingFace
+    controlnet_path = config.get('controlnet_local_path', '')
+    if not controlnet_path:
+        controlnet_path = "lllyasviel/sd-controlnet-" + config['controlnet_type']
+    controlnet = ControlNetModel.from_pretrained(controlnet_path, 
                                                  torch_dtype=torch.float16)
     controlnet.to("cuda") 
     if config['controlnet_type'] == 'depth':
@@ -72,8 +77,16 @@ def get_models(config):
     print('create controlnet model-' + config['controlnet_type'] + ' successfully!')
     
     # diffusion model
-    vae = AutoencoderKL.from_pretrained("stabilityai/sd-vae-ft-mse", torch_dtype=torch.float16)
-    pipe = StableDiffusionPipeline.from_pretrained(config['sd_path'], vae=vae, torch_dtype=torch.float16)
+    # Use local paths if provided, otherwise use HuggingFace
+    vae_path = config.get('vae_local_path', '')
+    if not vae_path:
+        vae_path = "stabilityai/sd-vae-ft-mse"
+    vae = AutoencoderKL.from_pretrained(vae_path, torch_dtype=torch.float16)
+    
+    sd_path = config.get('sd_local_path', '')
+    if not sd_path:
+        sd_path = config['sd_path']
+    pipe = StableDiffusionPipeline.from_pretrained(sd_path, vae=vae, torch_dtype=torch.float16)
     pipe.scheduler = DDPMScheduler.from_config(pipe.scheduler.config)
     #noise_scheduler = DDPMScheduler.from_pretrained("runwayml/stable-diffusion-v1-5", subfolder="scheduler")
     pipe.to("cuda")

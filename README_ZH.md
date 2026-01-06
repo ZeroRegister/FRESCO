@@ -25,6 +25,71 @@ FRESCO (Frame-Consistent Video-to-Video Translation) 是一个专注于视频风
 
 如果遇到 `ImportError: cannot import name 'UNet2DConditionOutput'` 错误，请确保您拉取了最新的代码，我们已经在 `src/diffusion_hacked.py` 中修复了这个问题。
 
+## 2.1 模型权重下载（离线使用）
+
+由于网络环境限制，您可能需要手动下载模型权重。以下是所有需要的 HuggingFace 模型及其下载方式。
+
+### 需要下载的模型
+
+| 模型名称 | 用途 | HuggingFace 地址 |
+|---------|------|-----------------|
+| **sd-controlnet-hed** | ControlNet (边缘控制) | `lllyasviel/sd-controlnet-hed` |
+| **sd-controlnet-canny** | ControlNet (Canny 边缘) | `lllyasviel/sd-controlnet-canny` |
+| **sd-controlnet-depth** | ControlNet (深度控制) | `lllyasviel/sd-controlnet-depth` |
+| **sd-vae-ft-mse** | VAE 编解码器 | `stabilityai/sd-vae-ft-mse` |
+| **Realistic_Vision_V2.0** | Stable Diffusion 基础模型 | `SG161222/Realistic_Vision_V2.0` |
+
+> **注意**: ControlNet 只需下载您使用的类型即可（hed/canny/depth 之一）。
+
+### 下载方法
+
+**方法一：使用 `huggingface-cli`（推荐）**
+
+```bash
+# 安装 huggingface_hub
+pip install huggingface_hub
+
+# 下载模型到 ./model 目录
+huggingface-cli download lllyasviel/sd-controlnet-hed --local-dir ./model/sd-controlnet-hed
+huggingface-cli download stabilityai/sd-vae-ft-mse --local-dir ./model/sd-vae-ft-mse
+huggingface-cli download SG161222/Realistic_Vision_V2.0 --local-dir ./model/Realistic_Vision_V2.0
+```
+
+**方法二：使用 `git lfs`**
+
+```bash
+# 确保安装了 git-lfs
+git lfs install
+
+# 克隆模型仓库
+git clone https://huggingface.co/lllyasviel/sd-controlnet-hed ./model/sd-controlnet-hed
+git clone https://huggingface.co/stabilityai/sd-vae-ft-mse ./model/sd-vae-ft-mse
+git clone https://huggingface.co/SG161222/Realistic_Vision_V2.0 ./model/Realistic_Vision_V2.0
+```
+
+**方法三：通过镜像站下载（中国大陆）**
+
+如果直接访问 HuggingFace 困难，可以使用镜像站：
+```bash
+# 使用 HF-Mirror
+export HF_ENDPOINT=https://hf-mirror.com
+huggingface-cli download lllyasviel/sd-controlnet-hed --local-dir ./model/sd-controlnet-hed
+# ...其他模型同理
+```
+
+### 配置本地路径
+
+下载完成后，修改 `config/config_carturn.yaml`（或您使用的配置文件）中的以下路径：
+
+```yaml
+# local model paths (for offline/local loading)
+controlnet_local_path: './model/sd-controlnet-hed'
+vae_local_path: './model/sd-vae-ft-mse'
+sd_local_path: './model/Realistic_Vision_V2.0'
+```
+
+> **重要**: 如果配置了这些路径，代码会优先从本地加载，无需联网。如果留空则仍尝试在线加载。
+
 ## 3. 脚本使用指南
 
 ### 3.1 启动命令
