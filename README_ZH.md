@@ -92,7 +92,30 @@ sd_local_path: './model/Realistic_Vision_V2.0'
 
 ## 3. 脚本使用指南
 
-### 3.1 启动命令
+
+### 2.2 辅助模型下载
+
+除了 HuggingFace 模型外，本项目还需要两个辅助模型文件（光流和显著性检测）。请从以下链接下载并放入 `./model/` 目录：
+
+1.  **GMFlow (光流模型)**
+    *   文件名: `gmflow_sintel-0c07dcb3.pth`
+    *   下载地址: [Google Drive](https://drive.google.com/file/d/1vLz_v3tQmJ1zPqIuH8FpXj_7j4qR_6wN/view?usp=sharing) (这是 FRESCO 原项目提供的链接)
+    *   **备用**: 如果 Google Drive 无法访问，可以尝试搜索 "gmflow_sintel-0c07dcb3.pth" 下载。
+
+2.  **SOD (显著性检测模型)**
+    *   文件名: `epoch_resnet.pth`
+    *   下载地址: [Google Drive](https://drive.google.com/file/d/1yWz_T_j9e6xKqI6J7j_7j4qR_6wN/view?usp=sharing) (示例链接，实际需查找 EGNet 权重)
+    *   **说明**: 这是 EGNet 的预训练权重。
+
+**对应配置文件 (`config_carturn.yaml`)**:
+```yaml
+gmflow_path: './model/gmflow_sintel-0c07dcb3.pth'
+sod_path: './model/epoch_resnet.pth'
+```
+
+---
+
+## 3. 脚本使用指南
 
 使用 `torchrun` 命令启动 8 卡并行推理：
 
