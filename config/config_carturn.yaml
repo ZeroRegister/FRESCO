@@ -21,7 +21,7 @@ batch_size: 8
 num_inference_steps: 20
 num_warmup_steps: 5
 end_opt_step: 15
-run_ebsynth: False
+run_ebsynth: True
 max_process: 4
 
 # supporting model
