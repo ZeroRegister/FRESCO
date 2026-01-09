@@ -166,3 +166,19 @@ torchrun --nproc_per_node=8 inference_sim2real_ddp.py \
 *   **Prompt 写法**: 建议在 txt 文件中不仅包含画面描述，还可以加上 Negative Prompt（负面提示词）以提升质量，但当前的 txt 读取逻辑是直接读取全部内容作为 Positive Prompt。如果需要精细控制 Negative Prompt，可以在 `run_fresco.py` 的 `run_keyframe_translation` 函数中写死通用的负面提示词（代码中已有默认的负面提示词）。
 
 如有其他问题，请查阅原始仓库文档或联系开发人员。
+
+# inference_simple使用方法
+cd /home/fch/research/video_gen/FRESCO
+
+# 基本用法
+python inference_simple.py \
+    --video ./data/car-turn.mp4 \
+    --prompt "a red car turns in the winter" \
+    --output ./output/test/
+
+# 如果 EBSynth 没有编译好，可以先只生成关键帧
+python inference_simple.py \
+    --video ./data/car-turn.mp4 \
+    --prompt "a red car turns in the winter" \
+    --output ./output/test/ \
+    --no_ebsynth
