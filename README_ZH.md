@@ -126,6 +126,7 @@ torchrun --nproc_per_node=8 inference_sim2real_ddp.py \
     --base_config ./config/config_carturn.yaml \
     --output_folder ./output/sim2real_results \
     --control_type hed
+    torchrun --nproc_per_node=7 inference_sim2real_ddp.py     --video_folder /starmap/nas/dataset/processed/CarlaData30hr/videos     --prompt_folder /starmap/nas/dataset/processed/CarlaData30hr/prompts     --base_config ./config/config_carturn.yaml     --output_folder /starmap/nas/dataset/processed/CarlaData30hr/fresco     --control_type hed
 ```
 
 ### 3.2 参数详解

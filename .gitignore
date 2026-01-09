@@ -9,3 +9,4 @@ src/ebsynth
 src/ebsynth/*
 
 .DS_Store
+__pycache__/

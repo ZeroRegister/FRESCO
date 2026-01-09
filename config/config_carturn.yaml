@@ -33,6 +33,6 @@ use_salinecy: True
 # Set these to local directories containing downloaded HuggingFace models.
 # Leave empty or comment out to use online loading (default).
 # Example: controlnet_local_path: './model/sd-controlnet-hed'
-controlnet_local_path: ''  # e.g., './model/sd-controlnet-hed'
-vae_local_path: ''         # e.g., './model/sd-vae-ft-mse'
-sd_local_path: ''          # e.g., './model/Realistic_Vision_V2.0'
+controlnet_local_path: './model/sd-controlnet-hed'  # e.g., './model/sd-controlnet-hed'
+vae_local_path: './model/sd-vae-ft-mse'         # e.g., './model/sd-vae-ft-mse'
+sd_local_path: 'model/AI-ModelScope/Realistic_Vision_V2.0'          # e.g., './model/Realistic_Vision_V2.0'
